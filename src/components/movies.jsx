@@ -37,7 +37,7 @@ class Movies extends Component {
 
   // handling the movie like button(heart)
 
-  handleOnLikeCall = movie => {
+  handleHeartSelect = movie => {
     console.log("heart clicked", movie);
     const movies = [...this.state.movies];
     const index = movies.indexOf(movie);
@@ -145,7 +145,9 @@ class Movies extends Component {
               sortColumn={sortColumn}
               movies={data}
               onDelete={this.handleDelete}
+              onHeartSelect={this.handleHeartSelect}
               onSort={this.handleOnsort}
+              getHeartClasses={this.handleGetHeartClasses}
             />
             <Pagination
               moviesCount={totalLength}

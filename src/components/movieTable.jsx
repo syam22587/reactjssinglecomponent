@@ -9,6 +9,17 @@ class MoviesTable extends Component {
     { path: "dailyRentalRate", title: "Rate" },
     // { key: "like" },
     {
+      key: "like",
+      content: mv => (
+        <i
+          class="fa fa-heart-o"
+          onClick={() => this.props.onHeartSelect(mv)}
+          aria-hidden="true"
+          className={this.props.getHeartClasses(mv)}
+        ></i>
+      )
+    },
+    {
       key: "delete",
       content: mv => (
         <button
