@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Input from "./input";
+import _ from "lodash";
+import Joi from "joi-browser";
 
 class LoginForm extends Component {
   state = {
@@ -10,12 +12,34 @@ class LoginForm extends Component {
     errors: {}
   };
 
+  schema = {
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
+  };
+
   validate = () => {
+    const options = { abortEarly: false };
+    const result = Joi.validate(this.state.account, this.schema, options);
+    if (!result.error) return null;
+
+    console.log("result", result);
+
+    const errors = {};
+    for (let item of result.error.details) errors[item.path[0]] = item.message; // _.escape(item.message);
+    return errors;
+
+    //The below code is actually the customer validation logic. this is replaced by JOI APi validation logic
+    /* { `${description}` }
+    console.log("result", result);
     const { account } = this.state;
     const errors = {};
     if (account.username.trim() === "") errors.username = "Username required ";
     if (account.password.trim() === "") errors.password = "Password required ";
-    return Object.keys(errors).length === 0 ? null : errors;
+    return Object.keys(errors).length === 0 ? null : errors; */
   };
 
   handleSubmit = e => {
