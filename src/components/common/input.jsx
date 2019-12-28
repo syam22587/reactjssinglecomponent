@@ -1,18 +1,30 @@
 import React from "react";
 
-const Input = props => {
+// instead of props passing, we are using object destructuring
+const Input = ({ name, label, value, onChange, type = "text", error }) => {
   return (
     <div className="form-group">
-      <label htmlFor={props.name}>{props.lable}</label>
+      <label htmlFor={name}>{label}</label>
       <input
-        id={props.name}
-        name={props.name}
+        type={type}
+        id={name}
+        className="form-control"
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+      {/*
+      // this is old representation . The below is modified with above new 
+      // representation using {...rest}
+      <input
+        id={name}
+        name={name}
         type="text"
         className="form-control"
-        value={props.value}
-        onChange={props.onChange}
-      />
-      {props.error && <div className="alert alert-danger">{props.error}</div>}
+        value={value}
+        onChange={onChange}
+      /> */}
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };
