@@ -8,9 +8,15 @@ import "font-awesome/css/font-awesome.css";
 
 import "./components/MovieComponent";
 import Movie from "./components/movies";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(<App />, document.getElementById("root"));
-ReactDOM.render(<Movie />, document.getElementById("test"));
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);
+//ReactDOM.render(<Movie />, document.getElementById("test"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
