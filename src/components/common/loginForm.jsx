@@ -6,21 +6,54 @@ class LoginForm extends Component {
     account: {
       username: "",
       password: ""
-    }
+    },
+    errors: {}
+  };
+
+  validate = () => {
+    const { account } = this.state;
+    const errors = {};
+    if (account.username.trim() === "") errors.username = "Username required ";
+    if (account.password.trim() === "") errors.password = "Password required ";
+    return Object.keys(errors).length === 0 ? null : errors;
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log("Submitted.");
+    const errors = this.validate();
+    console.log("erros", errors);
+    this.setState({ errors: errors || {} });
+    if (errors) return;
   };
 
-  handleChange = e => {
+  validateProperty = input => {
+    console.log("validate proper");
+    if (input.name === "username") {
+      if (input.value.trim() === "")
+        return "Username is required from onchange ";
+    }
+
+    if (input.name === "password") {
+      if (input.value.trim() === "")
+        return "Password is required from onchange ";
+    }
+  };
+
+  handleChange = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(input);
+    if (errorMessage) {
+      console.log("asdfasfasfsf", errorMessage);
+      errors[input.name] = errorMessage;
+    } else delete errors[input.name];
+
+    // the below line ensures input values are in sync with inputs own state
     const account = { ...this.state.account };
-    account[e.currentTarget.name] = e.currentTarget.value;
-    this.setState({ account });
+    account[input.name] = input.value;
+    this.setState({ account, errors });
   };
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login Form</h1>
@@ -30,12 +63,14 @@ class LoginForm extends Component {
             name="username"
             lable="Username"
             value={account.username}
+            error={errors.username}
           />
           <Input
             onChange={this.handleChange}
             name="password"
             lable="Password"
             value={account.password}
+            error={errors.password}
           />
 
           <button className="btn-primary btn">Login</button>

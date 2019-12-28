@@ -12,6 +12,7 @@ const Input = props => {
         value={props.value}
         onChange={props.onChange}
       />
+      {props.error && <div className="alert alert-danger">{props.error}</div>}
     </div>
   );
 };
